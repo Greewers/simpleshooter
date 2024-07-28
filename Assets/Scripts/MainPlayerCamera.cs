@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class MainPlayerCamera : MonoBehaviour
 {
     private const string MOUSE_X = "Mouse X";
     private const string MOUSE_Y = "Mouse Y";
+    public Camera PlayerCamera => _playerCamera;
 
     [SerializeField] private Transform _player;
     [SerializeField] private float _mouseSensitivity = 100f;
     [SerializeField] private Camera _playerCamera;
-    public Camera PlayerCamera => _playerCamera;
 
     private float _xRotation;
 

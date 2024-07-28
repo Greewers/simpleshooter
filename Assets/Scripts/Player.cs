@@ -3,16 +3,17 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private const string GROUND_TAG = "Ground";
-
-    private MovingController _controller;
+    private const string HORIZONTAL = "Horizontal";
+    private const string VERTICAL = "Vertical";
+    private const string MOUSE_X = "Mouse X";
     private bool _isGrounded;
-    
-    [SerializeField]private Rigidbody _rigidbody;
-    [SerializeField]private GameObject _go;
+    [SerializeField]private MovingController _controller;
+    [SerializeField]private Rigidbody _playerRigidbody;
+    [SerializeField]private Player _player;
 
     private void Start()
     {
-        _controller = new MovingController();
+        _controller.Init(_player, _playerRigidbody);
     }
     private void FixedUpdate()
     {
@@ -30,19 +31,20 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag(GROUND_TAG))
             _isGrounded = false;
     }
-
     private void PlayerMove()
     {
-        _controller.Move(_rigidbody, _go);
+        float moveHorizontal = Input.GetAxis(HORIZONTAL);
+        float moveVertical = Input.GetAxis(VERTICAL);
+        _controller.Move(moveHorizontal, moveVertical);
     }
-
     private void PlayerJump()
     {
-        _controller.Jump(_rigidbody, _isGrounded);
+        if (_isGrounded && Input.GetKeyDown(KeyCode.Space))
+            _controller.Jump();
     }
-
     private void PlayerRotate()
     {
-        _controller.Rotate(_rigidbody);
+        float verticalRotate = Input.GetAxis(MOUSE_X);
+        _controller.Rotate(verticalRotate);
     }
 }

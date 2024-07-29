@@ -29,10 +29,6 @@ public class CharacterMover : MonoBehaviour
             _playerRigidbody.AddForce(Vector3.up * _playerJumpForce, ForceMode.Impulse);
     }
 
-    public void Rotate(float verticalRotate)
-    {
-        _playerRigidbody.transform.Rotate(0, verticalRotate, 0);
-    }
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag(GROUND_TAG))

@@ -287,7 +287,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerStats: {fileID: 11400000, guid: 4a8fed62e131f824bbe4ae9aae3bda46, type: 2}
+  _playerInput: {fileID: 11400000, guid: 85f8f162b3eb1d44cb527897a8ea4bba, type: 2}
   _characterMover: {fileID: 136618966}
+  _playerController: {fileID: 890849911}
+  _mainPlayerCamera: {fileID: 1271422672}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,7 +485,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 136618965}
-  _mouseSensitivity: 500
   _playerCamera: {fileID: 1271422673}
 --- !u!20 &1271422673
 Camera:

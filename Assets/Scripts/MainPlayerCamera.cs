@@ -7,15 +7,18 @@ public class MainPlayerCamera : MonoBehaviour
     public Camera PlayerCamera => _playerCamera;
 
     [SerializeField] private Transform _player;
-    [SerializeField] private float _mouseSensitivity = 100f;
     [SerializeField] private Camera _playerCamera;
 
-    private float _xRotation;
+    private Vector2 _turn;
+    private float _mouseSensitivity;
 
+    public void Init(float mouseSensitivity)
+    {
+        _mouseSensitivity = mouseSensitivity;
+    }
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        transform.rotation = _player.rotation;
     }
 
     private void LateUpdate()
@@ -23,13 +26,12 @@ public class MainPlayerCamera : MonoBehaviour
         CameraRotate(gameObject.transform);
     }
 
-    private void CameraRotate(Transform transform)
+    private void CameraRotate(Transform transformPlayer)
     {
-        var mouseX = Input.GetAxis(MOUSE_X) * _mouseSensitivity * Time.deltaTime;
-        var mouseY = Input.GetAxis(MOUSE_Y) * _mouseSensitivity * Time.deltaTime;
-        _xRotation -= mouseY;
-        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
-        transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+        _turn.x += Input.GetAxis(MOUSE_X) * _mouseSensitivity;
+        _turn.y += Input.GetAxis(MOUSE_Y) * _mouseSensitivity;
+        _turn.y = Mathf.Clamp(_turn.y, -90, 90);
+        _player.localRotation = Quaternion.Euler(0, _turn.x, 0);
+        transformPlayer.localRotation = Quaternion.Euler(-_turn.y, 0, 0);
     }
 }

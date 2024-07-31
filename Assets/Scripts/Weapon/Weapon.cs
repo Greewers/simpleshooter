@@ -2,34 +2,40 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private float bulletSpeed = 2f;
-    [SerializeField] private float shootDelay = 1f;
-    [SerializeField] private Transform weaponPoint;
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private BulletPool bulletPool;
+    [SerializeField] private float _bulletSpeed = 2f;
+    [SerializeField] private Transform _weaponPoint;
+    [SerializeField] private BulletPool _bulletPool;
+    [SerializeField] private WeaponStats _weaponStats;
 
-    private float shootTime;
+    private float _shootDelay;
+    private Camera _playerCamera;
+    private float _shootTime;
 
+    public void Init(Camera playerCamera)
+    {
+        _shootDelay = _weaponStats.ShootDelay;
+        _playerCamera = playerCamera;
+        Debug.Log("AaA");
+    }
     private void Update()
     {
-        Shoot();
+        _shootTime -= Time.deltaTime;
     }
 
     private void LateUpdate()
     {
-        transform.LookAt(playerCamera.transform.position + playerCamera.transform.forward * int.MaxValue);
+        transform.LookAt(_playerCamera.transform.position + _playerCamera.transform.forward * int.MaxValue);
     }
 
-    private void Shoot()
+    public void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && shootTime <= 0)
+        if (_shootTime <= 0)
         {
-            shootTime = shootDelay;
-            var currentBullet = bulletPool.GetBullet();
-            currentBullet.transform.position = weaponPoint.position;
-            currentBullet.transform.LookAt(playerCamera.transform.position + playerCamera.transform.forward * int.MaxValue);
-            currentBullet.BulletRigitbody.AddForce(transform.forward * 1000 * bulletSpeed);
+            _shootTime = _shootDelay;
+            var currentBullet = _bulletPool.GetBullet();
+            currentBullet.transform.position = _weaponPoint.position;
+            currentBullet.transform.LookAt(_playerCamera.transform.position + _playerCamera.transform.forward * int.MaxValue);
+            currentBullet.BulletRigitbody.AddForce(transform.forward * 1000 * _bulletSpeed);
         }
-        shootTime -= Time.deltaTime;
     }
 }

@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class CharacterMover : MonoBehaviour
 {
-    private const string GROUND_TAG = "Ground";
-
     [SerializeField] private Rigidbody _playerRigidbody;
+    [SerializeField] private Bottom _bottom;
 
     private float _playerSpeed;
     private float _playerJumpForce;
-    private bool _isGrounded;
 
     public void Init(float playerSpeed, float playerJumpForce)
     {
@@ -25,19 +23,7 @@ public class CharacterMover : MonoBehaviour
 
     public void Jump()
     {
-        if (_isGrounded)
+        if (_bottom.IsGrounded)
             _playerRigidbody.AddForce(Vector3.up * _playerJumpForce, ForceMode.Impulse);
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag(GROUND_TAG))
-            _isGrounded = true;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag(GROUND_TAG))
-            _isGrounded = false;
     }
 }

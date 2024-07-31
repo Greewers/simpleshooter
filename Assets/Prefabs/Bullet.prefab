@@ -146,5 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7fc662dbd29b54b864bcb674afba04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
-  bulletRigidbody: {fileID: 7564803322784339230}
+  _lifeTime: 3
+  _bulletRigidbody: {fileID: 7564803322784339230}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    private List<Bullet> bullets = new List<Bullet>();
+    private List<Bullet> _bullets = new List<Bullet>();
 
     public Bullet bulletToInstantiate;
     public int poolSize = 8;
@@ -20,10 +20,10 @@ public class BulletPool : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++)
         {
-            if (bullets[i].gameObject.activeInHierarchy == false)
+            if (_bullets[i].gameObject.activeInHierarchy == false)
             {
-                bullets[i].gameObject.SetActive(true);
-                return bullets[i];
+                _bullets[i].gameObject.SetActive(true);
+                return _bullets[i];
             }
         }
         var bullet = AddBulletInPool();
@@ -34,7 +34,7 @@ public class BulletPool : MonoBehaviour
     private Bullet AddBulletInPool()
     {
         var bullet = Instantiate(bulletToInstantiate);
-        bullets.Add(bullet);
+        _bullets.Add(bullet);
         bullet.transform.parent = gameObject.transform;
         bullet.gameObject.SetActive(false);
         bullet.Init(ReturnBulletInPool);

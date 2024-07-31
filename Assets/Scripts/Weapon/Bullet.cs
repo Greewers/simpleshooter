@@ -4,16 +4,16 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public event Action<Bullet> DestoyCallback;
-    public Rigidbody BulletRigitbody => bulletRigidbody;
+    public Rigidbody BulletRigitbody => _bulletRigidbody;
 
-    [SerializeField] private float lifeTime = 3f;
-    [SerializeField] private Rigidbody bulletRigidbody;
+    [SerializeField] private float _lifeTime = 3f;
+    [SerializeField] private Rigidbody _bulletRigidbody;
 
-    private float timer;
+    private float _timer;
 
     private void OnEnable()
     {
-        timer = lifeTime;
+        _timer = _lifeTime;
     }
 
     public void Init(Action<Bullet> destroyCallback)
@@ -23,8 +23,8 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0f )
+        _timer -= Time.deltaTime;
+        if (_timer <= 0f )
             DestroyBullet();
     }
 

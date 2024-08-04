@@ -9,16 +9,18 @@ public class Character : MonoBehaviour
 
     [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private WeaponStats _weaponStats;
     [SerializeField] private CharacterMover _characterMover;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private MainPlayerCamera _mainPlayerCamera;
     [SerializeField] private Weapon _weapon;
+    [SerializeField] private BulletPool _bulletPool;
 
     private void Awake()
     {
         CharacterMover.Init(_playerStats.PlayerSpeed, _playerStats.PlayerJumpForce);
-        PlayerController.Init(_playerInput.Up, _playerInput.Down, _playerInput.Left, _playerInput.Right, _playerInput.Jump, _playerInput.Shoot);
+        PlayerController.Init(_playerInput, this);
         MainPlayerCamera.Init(_playerInput.MouseSensitivity);
-        Weapon.Init(_mainPlayerCamera.PlayerCamera);
+        Weapon.Init(_mainPlayerCamera.PlayerCamera, _bulletPool, _weaponStats);
     }
 }

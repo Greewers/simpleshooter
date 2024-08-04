@@ -2,24 +2,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Character _character;
-
+    private Character _character;
     private float _moveHorizontal;
     private float _moveVertical;
-    private KeyCode _up;
-    private KeyCode _down;
-    private KeyCode _left;
-    private KeyCode _right;
-    private KeyCode _jump;
-    private KeyCode _shoot;
-    public void Init(KeyCode up, KeyCode down, KeyCode left, KeyCode right, KeyCode jump, KeyCode shoot)
+    private PlayerInput _playerInput;
+
+    public void Init(PlayerInput playerInput, Character character)
     {
-        _up = up;
-        _down = down;
-        _left = left;
-        _right = right;
-        _jump = jump;
-        _shoot = shoot;
+        _playerInput = playerInput;
+        _character = character;
     }
 
     private void FixedUpdate()
@@ -33,28 +24,26 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerMove()
     {
-        if (Input.GetKey(_up))
+        if (Input.GetKey(_playerInput.Up))
             _moveVertical = 1;
-        if (Input.GetKey(_down))
+        if (Input.GetKey(_playerInput.Down))
             _moveVertical = -1;
-        if (Input.GetKey(_left))
+        if (Input.GetKey(_playerInput.Left))
             _moveHorizontal = -1;
-        if (Input.GetKey(_right))
+        if (Input.GetKey(_playerInput.Right))
             _moveHorizontal = 1;
         _character.CharacterMover.Move(_moveHorizontal, _moveVertical);
     }
 
     private void PlayerJump()
     {
-        if (Input.GetKey(_jump))
+        if (Input.GetKey(_playerInput.Jump))
             _character.CharacterMover.Jump();
     }
 
     private void PlayerShoot()
     {
-        if (Input.GetKeyDown(_shoot))
-        {
+        if (Input.GetKeyDown(_playerInput.Shoot))
             _character.Weapon.Shoot();
-        }
     }
 }

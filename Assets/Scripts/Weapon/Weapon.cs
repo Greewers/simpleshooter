@@ -2,24 +2,25 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private float _bulletSpeed = 2f;
     [SerializeField] private Transform _weaponPoint;
-    [SerializeField] private BulletPool _bulletPool;
-    [SerializeField] private WeaponStats _weaponStats;
 
+    private BulletPool _bulletPool;
+    private WeaponStats _weaponStats;
     private float _shootDelay;
     private Camera _playerCamera;
     private float _shootTime;
 
-    public void Init(Camera playerCamera)
+    public void Init(Camera playerCamera, BulletPool bulletPool, WeaponStats weaponStats)
     {
+        _weaponStats = weaponStats;
         _shootDelay = _weaponStats.ShootDelay;
         _playerCamera = playerCamera;
-        Debug.Log("AaA");
+        _bulletPool = bulletPool;
     }
     private void Update()
     {
-        _shootTime -= Time.deltaTime;
+        if(_shootTime > 0)
+            _shootTime -= Time.deltaTime;
     }
 
     private void LateUpdate()
@@ -33,9 +34,10 @@ public class Weapon : MonoBehaviour
         {
             _shootTime = _shootDelay;
             var currentBullet = _bulletPool.GetBullet();
+            currentBullet.transform.parent = _weaponPoint;
             currentBullet.transform.position = _weaponPoint.position;
             currentBullet.transform.LookAt(_playerCamera.transform.position + _playerCamera.transform.forward * int.MaxValue);
-            currentBullet.BulletRigitbody.AddForce(transform.forward * 1000 * _bulletSpeed);
+            currentBullet.BulletRigitbody.AddForce(1000 * currentBullet.BulletSpeed * transform.forward);
         }
     }
 }

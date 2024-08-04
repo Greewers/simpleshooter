@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bottom : MonoBehaviour
+public class GroundChecker : MonoBehaviour
 {
     public bool IsGrounded => _isGrounded;
     private const string GROUND_TAG = "Ground";

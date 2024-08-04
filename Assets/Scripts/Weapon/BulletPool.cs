@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    private List<Bullet> _bullets = new List<Bullet>();
+    private readonly List<Bullet> _bullets = new();
 
     public Bullet bulletToInstantiate;
     public int poolSize = 8;
@@ -18,7 +18,7 @@ public class BulletPool : MonoBehaviour
 
     public Bullet GetBullet()
     {
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < _bullets.Count; i++)
         {
             if (_bullets[i].gameObject.activeInHierarchy == false)
             {

@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterMover : MonoBehaviour
 {
     [SerializeField] private Rigidbody _playerRigidbody;
-    [SerializeField] private Bottom _bottom;
+    [SerializeField] private GroundChecker _bottom;
 
     private float _playerSpeed;
     private float _playerJumpForce;

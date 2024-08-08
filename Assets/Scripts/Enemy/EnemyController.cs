@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour, ITakeDamage
 {
+    public event Action<Enemy> DestoyCallback;
     public int EnemyCurrentHealth => _enemyCurrentHealth;
 
     private int _enemyHealthPoint;
@@ -14,6 +16,11 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         _enemyHealthPoint = enemyHealthPoint;
         _enemyCurrentHealth = _enemyHealthPoint;
     }
+    
+    public void OnKill(Action<Enemy> destroyCallback)
+    {
+        DestoyCallback = destroyCallback;
+    }
 
     public void TakeDamage(int damage)
     {
@@ -23,7 +30,11 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         }
         else
         {
-            Destroy(_enemy.gameObject);
+            DestroyEnemy();
         }
+    }
+    private void DestroyEnemy()
+    {
+        DestoyCallback?.Invoke(_enemy);
     }
 }

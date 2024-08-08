@@ -19,6 +19,7 @@ public class Weapon : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(_shootTime);
         if(_shootTime > 0)
             _shootTime -= Time.deltaTime;
     }
@@ -34,7 +35,6 @@ public class Weapon : MonoBehaviour
         {
             _shootTime = _shootDelay;
             var currentBullet = _bulletPool.GetBullet();
-            currentBullet.transform.parent = _weaponPoint;
             currentBullet.transform.position = _weaponPoint.position;
             currentBullet.transform.LookAt(_playerCamera.transform.position + _playerCamera.transform.forward * int.MaxValue);
             currentBullet.BulletRigitbody.AddForce(1000 * currentBullet.BulletSpeed * transform.forward);

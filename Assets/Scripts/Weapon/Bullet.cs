@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
             DestroyBullet();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Target") && collision.gameObject.TryGetComponent<ITakeDamage>(out var takeDamage))
         {
@@ -42,6 +42,7 @@ public class Bullet : MonoBehaviour
 
     private void DestroyBullet()
     {
+        Debug.Log("destroy" + this.gameObject.GetInstanceID());
         DestoyCallback?.Invoke(this);
     }
 }

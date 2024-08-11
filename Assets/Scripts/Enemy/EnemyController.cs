@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, ITakeDamage
 {
-    public event Action<Enemy> DestoyCallback;
+    public event Action<Enemy> OnDestroy;
     public int EnemyCurrentHealth => _enemyCurrentHealth;
 
     private int _enemyHealthPoint;
@@ -15,11 +15,6 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         _enemy = enemy;
         _enemyHealthPoint = enemyHealthPoint;
         _enemyCurrentHealth = _enemyHealthPoint;
-    }
-    
-    public void OnKill(Action<Enemy> destroyCallback)
-    {
-        DestoyCallback = destroyCallback;
     }
 
     public void TakeDamage(int damage)
@@ -33,8 +28,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
             DestroyEnemy();
         }
     }
+
     private void DestroyEnemy()
-    {
-        DestoyCallback?.Invoke(_enemy);
-    }
+        => OnDestroy?.Invoke(_enemy);
 }

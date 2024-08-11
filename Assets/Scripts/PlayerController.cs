@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerShoot()
     {
-        if (Input.GetKeyDown(_playerInput.Shoot))
+        if (Input.GetKey(_playerInput.Shoot))
             _character.Weapon.Shoot();
     }
 }

@@ -3,38 +3,36 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    [SerializeField] private WaypointController _waypointController;
-
+    private WaypointController _waypointController;
     private float _enemySpeed;
-    private int _currentWaypointIndex = 0;
+    private Waypoint _currentWaypoint;
+
+    public void Update()
+    {
+        Move();
+    }
 
     public void Init(float enemySpeed)
     {
         _enemySpeed = enemySpeed;
     }
 
-    public void Move()
+    public void SetWaypointController(WaypointController waypointController)
     {
-        Waypoint nextWaypoint = _waypointController.GetNextWaypoint(_currentWaypointIndex);
-
-        if (nextWaypoint == null)
-        {
-            Debug.Log("Waypoint not found");
-            return;
-        }
-
-        Vector3 direction = (nextWaypoint.transform.position - transform.position).normalized;
-        transform.position += _enemySpeed * Time.deltaTime * direction;
-        Rotate(direction);
-        if (Vector3.Distance(transform.position, nextWaypoint.transform.position) < nextWaypoint.WaypointRadius)
-        {
-            _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypointController.WaypointCount; //TODO переделать
-        }
+        _waypointController = waypointController;
     }
 
-    private void Update()
+    public void Move()
     {
-        Move();
+        if (_currentWaypoint == null)
+            _currentWaypoint = _waypointController.GetStartWaypoint();
+
+        Vector3 direction = (_currentWaypoint.transform.position - transform.position).normalized;
+        transform.position += _enemySpeed * Time.deltaTime * direction;
+        Rotate(direction);
+
+        if (Vector3.Distance(transform.position, _currentWaypoint.transform.position) < _currentWaypoint.WaypointRadius)
+            _currentWaypoint = _currentWaypoint.NextWaypoint;
     }
 
     private void Rotate(Vector3 direction)

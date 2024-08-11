@@ -19,7 +19,6 @@ public class Weapon : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(_shootTime);
         if(_shootTime > 0)
             _shootTime -= Time.deltaTime;
     }
@@ -31,6 +30,7 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
+        Debug.Log("Shoot");
         if (_shootTime <= 0)
         {
             _shootTime = _shootDelay;

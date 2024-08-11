@@ -1,12 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletPool : MonoBehaviour
+public class BulletPool
 {
     private readonly List<Bullet> _bullets = new();
+    private readonly int _bulletPoolSize = 8;
+    private readonly GameObject _bulletPoolVault;
+    private readonly Bullet _bulletToInstantiate;
+    public void Start()
+    {
+        for (int i = 0; i < _bulletPoolSize; i++)
+        {
+            AddBulletInPool();
+        }
+    }
 
-    public Bullet bulletToInstantiate;
-    public int bulletPoolSize = 8;
+    public BulletPool(PoolConfig poolConfig)
+    {
+        _bulletPoolVault = poolConfig.PoolVault;
+        _bulletPoolSize = poolConfig.PoolSize;
+        _bulletToInstantiate = poolConfig.ObjectToInstantiate.GetComponent<Bullet>();
+
+        for (int i = 0; i < _bulletPoolSize; i++)
+        {
+            AddBulletInPool();
+        }
+    }
 
     public Bullet GetBullet()
     {
@@ -15,6 +34,7 @@ public class BulletPool : MonoBehaviour
             if (_bullets[i].gameObject.activeInHierarchy == false)
             {
                 _bullets[i].gameObject.SetActive(true);
+                Debug.Log(_bullets[i].gameObject.GetInstanceID());
                 return _bullets[i];
             }
         }
@@ -28,22 +48,14 @@ public class BulletPool : MonoBehaviour
         bullet.BulletRigitbody.velocity = Vector3.zero;
         bullet.BulletRigitbody.angularVelocity = Vector3.zero;
         bullet.gameObject.SetActive(false);
-        bullet.transform.parent = gameObject.transform;
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < bulletPoolSize; i++)
-        {
-            AddBulletInPool();
-        }
+        bullet.transform.parent = _bulletPoolVault.transform;
     }
 
     private Bullet AddBulletInPool()
     {
-        var bullet = Instantiate(bulletToInstantiate);
+        var bullet = Object.Instantiate(_bulletToInstantiate);
         _bullets.Add(bullet);
-        bullet.transform.parent = gameObject.transform;
+        bullet.transform.parent = _bulletPoolVault.transform;
         bullet.gameObject.SetActive(false);
         bullet.Init(ReturnBulletInPool);
         return bullet;

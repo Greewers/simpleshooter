@@ -5,8 +5,9 @@ public class EnemySpawner : MonoBehaviour
 {
     private readonly List<Enemy> _enemys = new();
 
-    public Enemy enemyToInstantiate;
-    public int enemyPoolSize = 3;
+    [SerializeField] private WaypointController _waypointController;
+    [SerializeField] private Enemy _enemyToInstantiate;
+    [SerializeField] private int _enemyPoolSize = 3;
 
     public Enemy GetEnemy()
     {
@@ -33,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < enemyPoolSize; i++)
+        for (int i = 0; i < _enemyPoolSize; i++)
         {
             AddEnemyInPool();
         }
@@ -41,11 +42,11 @@ public class EnemySpawner : MonoBehaviour
 
     private Enemy AddEnemyInPool()
     {
-        var enemy = Instantiate(enemyToInstantiate);
+        var enemy = Instantiate(_enemyToInstantiate);
         _enemys.Add(enemy);
         enemy.transform.parent = gameObject.transform;
         enemy.gameObject.SetActive(false);
-        enemy.Init(ReturnEnemyInPool);
+        enemy.Init(ReturnEnemyInPool, _waypointController);
         return enemy;
     }
 }

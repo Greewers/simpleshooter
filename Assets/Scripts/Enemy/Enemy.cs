@@ -11,14 +11,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyMover _enemyMover;
     [SerializeField] private EnemyController _enemyController;
     [SerializeField] private Rigidbody _enemyRigidbody;
-    public void Init(Action<Enemy> destroyCallback)
-    {
-        EnemyController.OnKill(destroyCallback);
-    }
-
-    private void Awake()
+    public void Awake()
     {
         EnemyMover.Init(_enemyStats.EnemySpeed);
         EnemyController.Init(_enemyStats.EnemyHealthPoint, this);
+    }
+
+    public void Init(Action<Enemy> destroyCallback, WaypointController waypointControler)
+    {
+        EnemyController.OnDestroy += (e) =>
+        {
+            EnemyController.OnDestroy -= destroyCallback;
+            destroyCallback(e);
+        };
+        EnemyMover.SetWaypointController(waypointControler);
     }
 }
